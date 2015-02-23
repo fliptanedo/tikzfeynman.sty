@@ -1,0 +1,972 @@
+\documentclass[12pt]{article}
+%% arXiv paper template by Flip Tanedo
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  THE USUAL PACKAGES  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}         % \
+\usepackage{amssymb}         %  | AMS Packages for math
+\usepackage{amsfonts}        % /
+\usepackage{graphicx}        % Graphics
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  UNUSUAL PACKAGES        %%%%
+%%%  Uncomment as necessary. %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{lipsum}        % block of text (formatting test)
+%\usepackage{color}         % \color{...}, colored text
+%\usepackage{slashed}       % \slashed{k}
+%\usepackage{framed}        % boxed remarks
+%\usepackage{subcaption}    % subfigures; subfig depreciated
+%\usepackage{mathrsfs}      % Weinberg-esque letters
+%\usepackage{paralist}      % compactitem
+%\usepackage{multirow}      % multiple row elements in a table
+%\usepackage{cite}          % grouping citations (incompatible with collref)
+%\usepackage{booktabs}      % tables
+%\usepackage{nicefrac}      % fractions in tables,
+%\usepackage{youngtab}	    % Young Tableaux
+%\usepackage{arydshln} 	    % dashed lines in arrays and tables
+%\usepackage{appendix}      % subappendices
+%\usepackage{pifont}        % check marks
+%\usepackage{bbm}           % \mathbbm{1} incompatible with XeLaTeX 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  FLIP'S CUSTOM PACKAGES            %%%%
+%%%  These are in separate .sty files  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{flip-acronyms} % HEP acronyms in small caps, e.g. \GeV
+\usepackage{tikzfeynman}   % Flip's Feynman Diagrams
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  PAGE FORMATTING and (RE)NEW COMMANDS  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage[margin=2cm]{geometry}   % reasonable margins
+\graphicspath{{figures/}}	        % set directory for figures
+\numberwithin{equation}{section}    % set equation numbering
+\renewcommand{\tilde}{\widetilde}   % tilde over characters
+\renewcommand{\vec}[1]{\mathbf{#1}} % vectors are boldface
+
+
+\newcommand{\dbar}{d\mkern-6mu\mathchar'26}    % for d/2pi
+\newcommand{\ket}[1]{\left|#1\right\rangle}    % <#1|
+\newcommand{\bra}[1]{\left\langle#1\right|}    % |#1>
+\newcommand{\Xmark}{\text{\sffamily X}}        % cross out
+
+
+% Commands for temporary comments
+\newcommand{\comment}[2]{\textcolor{red}{[\textbf{#1} #2]}}
+\newcommand{\flip}[1]{{\tt \color{red} [Flip: {#1}]}}
+\newcommand{\email}[1]{\href{mailto:#1}{#1}}
+
+
+\newenvironment{institutions}[1][2em]{\begin{list}{}{\setlength\leftmargin{#1}\setlength\rightmargin{#1}}\item[]}{\end{list}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  TIKZ COMMANDS FOR EXTERNAL DIAGRAMS  %%%%
+%%%  requires -shell-escape               %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/] % folder for external pdfs
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%  HYPERREF  %%%%
+%%%%%%%%%%%%%%%%%%%
+
+% This package has to be at the end; can lead to conflicts
+\usepackage[
+	colorlinks=true,
+	citecolor=black,
+	linkcolor=black,
+	urlcolor=blue,
+	hypertexnames=false]{hyperref}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  TITLE DATA  %%%%
+%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{center}
+
+    {\huge \textbf{Sample Feynman Diagrams in TikZ} \\
+    \large \textsc{Vol.~III: Blob Diagrams} }
+
+    \vskip .7cm
+
+    { \bf Flip Tanedo } 
+    \\ \vspace{-.2em}
+    { \tt
+    \footnotesize
+    \email{flip.tanedo@uci.edu} 
+    }
+	
+    \vspace{-.2cm}
+
+    \begin{institutions}[2.25cm]
+    \footnotesize
+	\vspace*{0.05cm}
+	{\it 
+	    Department of Physics \& Astronomy, 
+	    University of California, 
+	    Irvine, \textsc{ca} 92697
+	    }   
+    \end{institutions}
+
+\end{center}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  ABSTRACT    %%%%
+%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+\noindent This is collection of useful sample Feynman diagrams and pieces typeset in TikZ. See Volume I for background information.
+\end{abstract}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  THE MEAT    %%%%
+%%%%%%%%%%%%%%%%%%%%%
+
+% Use \input if you have separate files.
+% \include is `smarter' (creates separate aux files for each tex file) 
+% and hence more efficient, but it automatically puts a page break
+% between included files. Input doesn't do this.
+
+\section{Direct Detection Blob}
+
+	\begin{tikzpicture}[line width=1.5 pt, scale=2]
+		\draw[fermion](145:1) -- (145:.3cm);
+			\node at (145:1.15) {$\chi$};
+		\draw[fermion](215:1) -- (215:.3cm);
+			\node at (215:1.2) {SM};
+		\draw[fermionbar](35:1) -- (35:.3cm);
+			\node at (35:1.15) {$\chi$};
+		\draw[fermionbar](-35:1) -- (-35:.3cm);
+			\node at (-35:1.2) {SM};
+		\draw[fill=black] (0,0) circle (.3cm);
+		\draw[fill=white] (0,0) circle (.29cm);
+		\begin{scope}
+	    	\clip (0,0) circle (.3cm);
+	    	\foreach \x in {-.9,-.8,...,.3}
+				\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+	  	\end{scope}
+	 \end{tikzpicture}	
+
+
+\section{'t Hooft operator}
+
+
+	\begin{tikzpicture}[line width=1.5 pt, scale=2.5]
+		\draw[fermionbar] (0:.75) -- (25:.29);
+		\draw[fermionnoarrow] (0:.75) -- (-25:.29);
+		\draw[scalar] (0:.75) -- (0:1.25);
+		\begin{scope}[shift={(1.25,0)}]
+			\draw (125:.1) -- (-55:.1);
+			\draw (55:.1) -- (-125:.1);			
+		\end{scope}
+		\draw[fermionbar] (60:.75) -- (85:.29);
+		\draw[fermionnoarrow] (60:.75) -- (35:.29);
+		\draw[scalar] (60:.75) -- (60:1.25);
+		\begin{scope}[shift={(60:1.25)}, rotate=60]
+			\draw (125:.1) -- (-55:.1);
+			\draw (55:.1) -- (-125:.1);			
+		\end{scope}
+		\draw[fermionbar] (120:.75) -- (145:.29);
+		\draw[fermionnoarrow] (120:.75) -- (95:.29);
+		\draw[scalar] (120:.75) -- (120:1.25);
+		\begin{scope}[shift={(120:1.25)}, rotate=120]
+			\draw (125:.1) -- (-55:.1);
+			\draw (55:.1) -- (-125:.1);			
+		\end{scope}
+		\draw[fermionbar] (300:.75) -- (325:.29);
+		\draw[fermionnoarrow] (300:.75) -- (275:.29);
+		\draw[scalar] (300:.75) -- (300:1.25);
+		\begin{scope}[shift={(300:1.25)}, rotate=300]
+			\draw (125:.1) -- (-55:.1);
+			\draw (55:.1) -- (-125:.1);			
+		\end{scope}
+		\draw[fill=black] (320:1) circle (.01);
+		\draw[fill=black] (325:1) circle (.01);
+		\draw[fill=black] (330:1) circle (.01);
+		\draw[fill=black] (335:1) circle (.01);
+		\draw[fill=black] (340:1) circle (.01);
+		\draw[fill=black] (80:1) circle (.01);
+		\draw[fill=black] (85:1) circle (.01);
+		\draw[fill=black] (90:1) circle (.01);
+		\draw[fill=black] (95:1) circle (.01);
+		\draw[fill=black] (100:1) circle (.01);
+		\draw[fill=black] (0,0) circle (.3cm);
+		\draw[fill=white] (0,0) circle (.29cm);
+		\begin{scope}
+	    	\clip (0,0) circle (.3cm);
+	    	\foreach \x in {-.9,-.8,...,.3}
+				\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+	  	\end{scope}
+		% \node at (0,0) {I};
+		\node at (278:.6) {$\lambda$};
+		\node at (323:.6) {$Q$};
+		\node at (98:.6) {$\lambda$};
+		\node at (143:.6) {$\overline Q$};
+		\node at (290:1) {$\tilde Q$};
+		\node at (130:1) {$\tilde Q$};
+		\node at (300:1.5) {$v$};
+		\node at (120:1.5) {$v$};
+		\node at (60:1.5) {$v$};
+		\node at (0:1.5) {$v$};
+		\draw[fermionnoarrow] (180:.75) -- (180:.29);
+		\draw[fermionnoarrow] (240:.75) -- (240:.29);
+		\draw[fermion] (160:1) -- (180:.75);
+		\draw[scalar] (180:.75) -- (200:1);
+		\begin{scope}[shift={(200:1)}, rotate=60]
+			\draw (125:.1) -- (-55:.1);
+			\draw (55:.1) -- (-125:.1);			
+		\end{scope}
+		\draw[fermion] (260:1) -- (240:.75);
+		\draw[scalar] (240:.75) -- (220:1);
+		\begin{scope}[shift={(220:1)}]
+			\draw (125:.1) -- (-55:.1);
+			\draw (55:.1) -- (-125:.1);			
+		\end{scope}
+		\node at (200:1.25) {$v$};
+		\node at (220:1.25) {$v$};
+		\node at (265:1.2) {$Q$};
+		\node at (155:1.2) {$\overline Q$};
+	 \end{tikzpicture}
+	
+	\vspace{2em}
+	
+	
+	
+	\begin{tikzpicture}[line width=1.5 pt, scale=2.5]
+		\draw[fermionbar] (0:.75) -- (25:.29);
+		\draw[fermionnoarrow] (0:.75) -- (-25:.29);
+		\draw[scalar] (0:.75) -- (0:1.25);
+		\begin{scope}[shift={(1.25,0)}]
+			\draw (125:.07) -- (-55:.07);
+			\draw (55:.07) -- (-125:.07);			
+		\end{scope}
+		\draw[fermionbar] (60:.75) -- (85:.29);
+		\draw[fermionnoarrow] (60:.75) -- (35:.29);
+		\draw[scalar] (60:.75) -- (60:1.25);
+		\begin{scope}[shift={(60:1.25)}, rotate=60]
+			\draw (125:.07) -- (-55:.07);
+			\draw (55:.07) -- (-125:.07);
+		\end{scope}
+		\draw[fermionbar] (120:.75) -- (145:.29);
+		\draw[fermionnoarrow] (120:.75) -- (95:.29);
+		\draw[scalar] (120:.75) -- (120:1.25);
+		\begin{scope}[shift={(120:1.25)}, rotate=120]
+			\draw (125:.07) -- (-55:.07);
+			\draw (55:.07) -- (-125:.07);
+		\end{scope}
+		\draw[fermionbar] (300:.75) -- (325:.29);
+		\draw[fermionnoarrow] (300:.75) -- (275:.29);
+		\draw[scalar] (300:.75) -- (300:1.25);
+		\begin{scope}[shift={(300:1.25)}, rotate=300]
+			\draw (125:.07) -- (-55:.07);
+			\draw (55:.07) -- (-125:.07);
+		\end{scope}
+		\draw[fill=black] (320:1) circle (.01);
+		\draw[fill=black] (325:1) circle (.01);
+		\draw[fill=black] (330:1) circle (.01);
+		\draw[fill=black] (335:1) circle (.01);
+		\draw[fill=black] (340:1) circle (.01);
+		\draw[fill=black] (80:1) circle (.01);
+		\draw[fill=black] (85:1) circle (.01);
+		\draw[fill=black] (90:1) circle (.01);
+		\draw[fill=black] (95:1) circle (.01);
+		\draw[fill=black] (100:1) circle (.01);
+		\draw[fill=black] (0,0) circle (.3cm);
+		\draw[fill=white] (0,0) circle (.29cm);
+		\begin{scope}
+	    	\clip (0,0) circle (.3cm);
+	    	\foreach \x in {-.9,-.8,...,.3}
+				\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+	  	\end{scope}
+		% \node at (0,0) {I};
+		% \node at (278:.6) {$\lambda$};
+		% \node at (323:.6) {$Q$};
+		% \node at (98:.6) {$\lambda$};
+		% \node at (143:.6) {$\overline Q$};
+		% \node at (290:1) {$\tilde Q$};
+		% \node at (130:1) {$\tilde Q$};
+		% \node at (300:1.5) {$v$};
+		% \node at (120:1.5) {$v$};
+		% \node at (60:1.5) {$v$};
+		% \node at (0:1.5) {$v$};
+		\draw[fermionnoarrow] (180:.75) -- (180:.29);
+		\draw[fermionnoarrow] (240:.75) -- (240:.29);
+		\draw[fermion] (160:1) -- (180:.75);
+		\draw[scalar] (180:.75) -- (200:1);
+		\begin{scope}[shift={(200:1)}, rotate=60]
+			\draw (125:.07) -- (-55:.07);
+			\draw (55:.07) -- (-125:.07);
+		\end{scope}
+		\draw[fermion] (260:1) -- (240:.75);
+		\draw[scalar] (240:.75) -- (220:1);
+		\begin{scope}[shift={(220:1)}]
+			\draw (125:.07) -- (-55:.07);
+			\draw (55:.07) -- (-125:.07);
+		\end{scope}
+		% \node at (200:1.25) {$v$};
+		% \node at (220:1.25) {$v$};
+		% \node at (265:1.2) {$Q$};
+		% \node at (155:1.2) {$\overline Q$};
+	 \end{tikzpicture}
+	
+	
+
+\section{Hadronic interactions}
+
+\begin{tikzpicture}[line width=1.5 pt, scale=2]
+	% \draw[fermion](145:1) -- (145:.3cm);
+	% 	\node at (145:1.15) {$\chi$};
+	% \draw[fermion](215:1) -- (215:.3cm);
+	% 	\node at (215:1.2) {SM};
+	% \draw[fermionbar](35:1) -- (35:.3cm);
+	% 	\node at (35:1.15) {$\chi$};
+	% \draw[fermionbar](-35:1) -- (-35:.3cm);
+	% 	\node at (-35:1.2) {SM};
+	% \draw[fill=black] (0,0) circle (.3cm);
+	% \draw[fill=white] (0,0) circle (.29cm);
+	\draw[fermion] (-1,2) -- (0,2);
+	\draw[fermion] (0,2) -- (1,2.5);
+	\draw[vector] (0,2) -- (.5,1);
+	% \draw[fermion] (0,0) -- (.5,1);
+	\draw[fermion] (.5,1) -- (1.5,1);
+	\draw[fermion] (60:.3) -- (.5,1);
+	%
+	\draw[fermion] (-1,.2) -- (0,.2);
+	\draw[fermion] (-1,.1) -- (0,.1);
+	\draw[fermion] (-1,0) -- (0,0);
+	%
+	\draw[fermion] (0,-.1) -- (1.5,-0.1);
+	\draw[fermion] (0,-.2) -- (1.5,-0.2);
+	\fill[white] (0,0) circle (.3);
+	\begin{scope}
+    	\clip (0,0) circle (.3cm);
+    	\foreach \x in {-.9,-.8,...,.3}
+			\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+  	\end{scope}
+	\draw[fermionnoarrow] (0,0) circle (.3);
+ \end{tikzpicture}
+
+\vspace{1cm}
+
+\begin{tikzpicture}[line width=1.5 pt, scale=2]
+	\draw[fermion] (-1,2.1) -- (-.2,2.1);
+	\draw[fermion] (-1,2) -- (-.2,2);
+	\draw[fermion] (-1,1.9) -- (-.2,1.9);
+	%
+	\draw[fermion] (0,2) -- (2,2);
+	\draw[fermion] (0,2.1) -- (2,2.1);
+	\draw[fermion] (0,2) -- (.5,1);
+	% \draw[fermion] (0,0) -- (.5,1);
+	\draw[vector] (.5,1) -- (1,1);
+	\draw[fermion] (2,1.5) -- (1,1);
+	\draw[fermion] (1,1) -- (2,.5);
+	%
+	\draw[fermion] (60:.3) -- (.5,1);
+	%
+	\draw[fermion] (-1,.1) -- (-.2,.1);
+	\draw[fermion] (-1,0) -- (-.2,0);
+	\draw[fermion] (-1,-.1) -- (-.2,-.1);
+	%
+	\draw[fermion] (0,0) -- (2,0);
+	\draw[fermion] (0,-.1) -- (2,-.1);
+	\fill[white] (0,0) circle (.3);
+%
+	\begin{scope}
+    	\clip (0,0) circle (.3cm);
+    	\foreach \x in {-.9,-.8,...,.3}
+			\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+  	\end{scope}
+	\draw[fermionnoarrow] (0,0) circle (.3);
+%	
+	\begin{scope}[shift={(0,2)}]
+		\fill[white] (0,0) circle (.3);
+    	\clip (0,0) circle (.3cm);
+    	\foreach \x in {-.9,-.8,...,.3}
+			\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+		\draw[fermionnoarrow] (0,0) circle (.3);
+  	\end{scope}
+	\draw[fermionnoarrow] (0,2) circle (.3);
+ \end{tikzpicture}
+
+
+\vspace{1em}
+
+
+\begin{center}
+\begin{tikzpicture}[line width=1.5 pt]
+	\node at (-2.5,0) {$K^+$};
+	\node at (1.8,1.8) {$\pi^+$};
+	\node at (2.4,1.8) {$\pi^-$};
+	\node at (4.7,1.2) {$e$};
+	\node at (4.7,-1.2) {$\nu$};
+	\node at (3,-.6) {$A_\mu$};
+	\node at (1.5,-.3) {$K^+$};
+	\draw (-2,0) -- (0,0) -- (3,0);
+	\draw[fermion] (4.5,1) -- (3,0);
+	\draw[fermion] (3,0) -- (4.5,-1);
+	\draw[scalarnoarrow] (-.2,0) -- (1.8,1.5);
+	\draw[scalarnoarrow] (.2,0) -- (2.2,1.5);
+	\draw[fill=black] (0,0) circle (.3cm);
+	\draw[fill=white] (0,0) circle (.29cm);
+	\begin{scope}
+    	\clip (0,0) circle (.3cm);
+    	\foreach \x in {-1.0,-.8,...,.4}
+			\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+  	\end{scope}
+	\begin{scope}[shift={(3,0)}]
+		\draw[fill=black] (0,0) circle (.3cm);
+		\draw[fill=white] (0,0) circle (.29cm);
+		\begin{scope}
+	    	\clip (0,0) circle (.3cm);
+	    	\foreach \x in {-1.0,-.8,...,.4}
+				\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+	  	\end{scope}
+	\end{scope}
+ \end{tikzpicture}
+\end{center}
+
+
+
+\section{SUSY Cascade}
+
+
+
+\begin{tikzpicture}[line width=2 pt, scale=2]
+	\draw (-1,1) -- (-.22cm,.22cm);
+	\draw (-1,-1) -- (-.22cm,-.22cm);
+	%
+	\draw[line width=.75 pt] (.22cm,.22cm) -- (1,1);
+	\draw[line width=.75 pt] (.22cm,-.22cm) -- (1,-1);
+	\draw[gluon, line width=1 pt] (.22cm,.22cm) -- (1,1);
+	\draw[gluon, line width=1 pt] (.22cm,-.22cm) -- (1,-1);
+	\node at (65:1) {$\tilde{g}$};
+	\node at (-65:1) {$\tilde{g}$};
+	%
+	\begin{scope}
+    	\clip (0,0) circle (.3cm);
+    	\foreach \x in {-.9,-.8,...,.3}
+			\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+  	\end{scope}
+  	\draw[fermionnoarrow] (0,0) circle (.3);
+  	%
+  	%\draw[scalarnoarrow] (1,1) -- (2,1);
+  	%\draw[scalarnoarrow] (1,-1) -- (2,-1);
+  	%
+  	\begin{scope}[shift={(1,1)}]
+	  	\node at (63:.6) {$t/\bar t$};
+	  	\node at (-50:.6) {$\tilde t$};
+  		\draw[fermionnoarrow] (0,0) -- (45:1);
+  		\draw[scalarnoarrow] (0,0) -- (-30:1);
+  		\begin{scope}[shift={(45:1)}]
+  			\draw[fermionnoarrow] (0,0) -- (45:1);
+  			\node at (45:1.2) {$b$};
+  			\draw[vector] (0,0) -- (1,0);
+  			\node at (.7,.2) {$W$};
+  			\begin{scope}[shift={(1,0)}]
+  				\draw[fermionnoarrow] (0,0) -- (15:1);
+  				\draw[fermionnoarrow] (0,0) -- (-15:1);
+  				\node at (15:1.2) {$\ell$};
+  				\node at (-15:1.2) {$\nu$};
+  			\end{scope}
+  		\end{scope}
+  		\begin{scope}[shift={(-30:1)}]
+  			\draw[fermionnoarrow] (0,0) -- (30:1);
+  			\node at (30:1.2) {$b$};
+  			\draw[fermionnoarrow] (0,0) -- (-0:1);
+  			\node at (0:1.2) {$s$};
+  		\end{scope}
+  	\end{scope}
+  	\begin{scope}[shift={(1,-1)}]
+  		\node at (-68:.6) {$t/\bar t$};
+  		\node at (50:.6) {$\tilde t$};
+   		\draw[fermionnoarrow] (0,0) -- (-45:1);
+  		\draw[scalarnoarrow] (0,0) -- (30:1);
+  		\begin{scope}[shift={(-45:1)}]
+  			\draw[fermionnoarrow] (0,0) -- (-45:1);
+  			\node at (-45:1.2) {$b$};
+  			\draw[vector] (0,0) -- (1,0);
+  			\node at (.7,-.2) {$W$};
+  			\begin{scope}[shift={(1,0)}]
+  				\draw[fermionnoarrow] (0,0) -- (15:1);
+  				\draw[fermionnoarrow] (0,0) -- (-15:1);
+  				\node at (-15:1.2) {$\ell$};
+  				\node at (15:1.2) {$\nu$};
+  			\end{scope}
+  		\end{scope}
+  		\begin{scope}[shift={(30:1)}]
+  			\draw[fermionnoarrow] (0,0) -- (0:1);
+  			\node at (0:1.2) {$b$};
+  			\draw[fermionnoarrow] (0,0) -- (-30:1);
+  			\node at (-30:1.2) {$s$};
+  		\end{scope}
+  	\end{scope}
+\end{tikzpicture}
+
+
+
+
+\vspace{2em}
+
+
+\begin{tikzpicture}[line width=2 pt, scale=2]
+	\draw (-1,1) -- (-.22cm,.22cm);
+	\draw (-1,-1) -- (-.22cm,-.22cm);
+	%
+	\draw[scalar] (.22cm,.22cm) -- (1,1);
+	\draw[scalarbar] (.22cm,-.22cm) -- (1,-1);
+	\node at (65:1) {$\tilde{t}_2$};
+	\node at (-65:1) {$\tilde{t}_2$};
+	%
+	\begin{scope}
+    	\clip (0,0) circle (.3cm);
+    	\foreach \x in {-.9,-.8,...,.3}
+			\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+  	\end{scope}
+  	\draw[fermionnoarrow] (0,0) circle (.3);
+  	%
+  	%\draw[scalarnoarrow] (1,1) -- (2,1);
+  	%\draw[scalarnoarrow] (1,-1) -- (2,-1);
+  	%
+  	\begin{scope}[shift={(1,1)}]
+	  	\node at (63:.6) {$\tilde t_1$};
+	  	\node at (-50:.6) {$Z$};
+  		\draw[scalar] (0,0) -- (45:1);
+  		\draw[vector] (0,0) -- (-30:1);
+  		\begin{scope}[shift={(45:1)}]
+  			\draw[fermion] (0,0) -- (1,0);
+  			\node at (45:1.2) {$\tilde G$};
+  			\draw[line width=.75 pt] (0,0) -- (45:1);
+  			\draw[vector, line width=1 pt] (0,0) -- (45:1);
+  			\node at (.6,.2) {$t$};
+  			\begin{scope}[shift={(1,0)}]
+  				\draw[vector] (0,0) -- (30:1);
+  				\draw[fermion] (0,0) -- (-15:1);
+  				\node at (-15:1.2) {$b$};
+  				\node at (50:0.5) {$W$};
+  				\begin{scope}[shift={(30:1)}]
+  					\draw[fermion] (0,0) -- (15:.8);
+	  				\draw[fermionbar] (0,0) -- (-15:.8);
+	  				\node at (-15:1) {$\ell$};
+	  				\node at (15:1) {$\nu$};
+  				\end{scope}
+  			\end{scope}
+  		\end{scope}
+  		\begin{scope}[shift={(-30:1)}]
+  			\draw[fermion] (0,0) -- (15:1);
+  			\node at (15:1.2) {$\ell$};
+  			\draw[fermionbar] (0,0) -- (-5:1);
+  			\node at (-5:1.2) {$\ell$};
+  		\end{scope}
+  	\end{scope}
+  	%
+  	% Lower half
+  	%
+  	\begin{scope}[shift={(1,-1)}]
+  		\node at (-68:.6) {$\tilde t_1$};
+  		\node at (50:.6) {$Z$};
+   		\draw[scalarbar] (0,0) -- (-45:1);
+  		\draw[vector] (0,0) -- (30:1);
+  		\begin{scope}[shift={(-45:1)}]
+  			% \draw[fermionnoarrow] (0,0) -- (-45:1);
+  			\draw[line width=.75 pt] (0,0) -- (-45:1);
+  			\draw[vector, line width=1 pt] (0,0) -- (-45:1);
+  			\node at (-45:1.2) {$\tilde G$};
+  			\draw[fermionbar] (0,0) -- (1,0);
+  			\node at (.6,-.2) {$t$};
+  			\begin{scope}[shift={(1,0)}]
+  				\draw[vector] (0,0) -- (-30:1);
+  				\draw[fermion] (0,0) -- (15:1);
+  				\node at (15:1.2) {$b$};
+  				\node at (-50:0.5) {$W$};
+  				\begin{scope}[shift={(-30:1)}]
+  					\draw[fermion] (0,0) -- (15:.8);
+	  				\draw[fermionbar] (0,0) -- (-15:.8);
+	  				\node at (-15:1) {$\nu$};
+	  				\node at (15:1) {$\ell$};
+  				\end{scope}
+  			\end{scope}
+  		\end{scope}
+  		\begin{scope}[shift={(30:1)}]
+  			\draw[fermion] (0,0) -- (15:1);
+  			\node at (-5:1.2) {$\ell$};
+  			\draw[fermionbar] (0,0) -- (-5:1);
+  			\node at (15:1.2) {$\ell$};
+  		\end{scope}
+  	\end{scope}
+\end{tikzpicture}
+
+
+
+
+
+\section{Multilepton stops}
+
+
+\begin{tikzpicture}[line width=1.5 pt, scale=1.6]
+	\draw (-.75,.75) -- (-.22cm,.22cm);
+	\draw (-.75,-.75) -- (-.22cm,-.22cm);
+	%
+	\draw[scalar] (.22cm,.22cm) -- (1,.22);
+	\draw[scalarbar] (.22cm,-.22cm) -- (1,-.22);
+	\draw[fill] (1.2,-.3) circle (.03);
+	\draw[fill] (1.4,-.3) circle (.03);
+	\draw[fill] (1.6,-.3) circle (.03);
+	\node at (.6,.5) {$\tilde{t}_2$};
+	\node at (.6,-.5) {$\tilde{t}_2$};
+	%
+	\begin{scope}
+    	\clip (0,0) circle (.3cm);
+    	\foreach \x in {-.9,-.8,...,.3}
+			\draw[line width=1 pt] (\x,-.3) -- (\x+.6,.3);
+  	\end{scope}
+  	\draw[fermionnoarrow] (0,0) circle (.3);
+  	%
+%  	%
+  	\begin{scope}[shift={(1,.22)}]
+	  	\node at (70:.6) {$Z$};
+	  	\node at (.5,-.25) {$\tilde t_1$};
+  		\draw[scalar] (0,0) -- (0:1);
+  		\draw[vector] (0,0) -- (45:1);
+  		\begin{scope}[shift={(1,0)}]
+  			\draw[fermion] (0,0) -- (1,0);
+  			\node at (45:1.2) {$\tilde G$};
+  			\draw[line width=.75 pt] (0,0) -- (45:1);
+  			\draw[vector, line width=1 pt] (0,0) -- (45:1);
+  			\node at (.5,-.25) {$t$};
+  			\begin{scope}[shift={(1,0)}]
+  				\draw[vector] (0,0) -- (1,0);
+  				\draw[fermion] (0,0) -- (45:1);
+  				\node at (45:1.2) {$b$};
+  				\node at (.5,-0.25) {$W$};
+  				\begin{scope}[shift={(1,0)}]
+  					\draw[fermion] (0,0) -- (15:.8);
+	  				\draw[fermionbar] (0,0) -- (-15:.8);
+	  				\node at (-15:1) {$\ell$};
+	  				\node at (15:1) {$\nu$};
+  				\end{scope}
+  			\end{scope}
+  		\end{scope}
+  		\begin{scope}[shift={(45:1)}]
+  			\draw[fermion] (0,0) -- (55:.75);
+  			\node at (55:.9) {$\ell$};
+  			\draw[fermionbar] (0,0) -- (35:.75);
+  			\node at (35:.9) {$\ell$};
+  		\end{scope}
+  	\end{scope}
+%  	%
+%  	% Lower half
+%  	%
+%  	\begin{scope}[shift={(1,-1)}]
+%  		\node at (-68:.6) {$\tilde t_1$};
+%  		\node at (50:.6) {$Z$};
+%   		\draw[scalarbar] (0,0) -- (-45:1);
+%  		\draw[vector] (0,0) -- (30:1);
+%  		\begin{scope}[shift={(-45:1)}]
+%  			% \draw[fermionnoarrow] (0,0) -- (-45:1);
+%  			\draw[line width=.75 pt] (0,0) -- (-45:1);
+%  			\draw[vector, line width=1 pt] (0,0) -- (-45:1);
+%  			\node at (-45:1.2) {$\tilde G$};
+%  			\draw[fermionbar] (0,0) -- (1,0);
+%  			\node at (.6,-.2) {$t$};
+%  			\begin{scope}[shift={(1,0)}]
+%  				\draw[vector] (0,0) -- (-30:1);
+%  				\draw[fermion] (0,0) -- (15:1);
+%  				\node at (15:1.2) {$b$};
+%  				\node at (-50:0.5) {$W$};
+%  				\begin{scope}[shift={(-30:1)}]
+%  					\draw[fermion] (0,0) -- (15:.8);
+%	  				\draw[fermionbar] (0,0) -- (-15:.8);
+%	  				\node at (-15:1) {$\nu$};
+%	  				\node at (15:1) {$\ell$};
+%  				\end{scope}
+%  			\end{scope}
+%  		\end{scope}
+%  		\begin{scope}[shift={(30:1)}]
+%  			\draw[fermion] (0,0) -- (15:1);
+%  			\node at (-5:1.2) {$\ell$};
+%  			\draw[fermionbar] (0,0) -- (-5:1);
+%  			\node at (15:1.2) {$\ell$};
+%  		\end{scope}
+%  	\end{scope}
+\end{tikzpicture}
+
+
+
+\section{Strongly coupled blob}
+	Uses \texttt{tikzlibrary\{calc\}}.
+	\vspace{1em}
+	
+	
+	\begin{tikzpicture}[line width=1.5,scale=1]
+	\pgfmathsetmacro{\offset}{2.5}
+	
+	\begin{scope}
+	    \clip[rounded corners=1cm] (60:1) 
+    -- ($(60:1)+(0:\offset)$)
+    -- ($(60:1)+(0:\offset)-(0,2*sin(60)$) 
+    -- (-60:1)
+    -- ($(-60:1)+(240:\offset)$)
+    -- ($(180:1)+(240:\offset)$)
+    -- (180:1)
+    -- ($(180:1)+(120:\offset)$)
+    -- ($(60:1)+(120:\offset)$)
+    -- cycle;
+	   \foreach \x in {-5,-4.8,...,3}
+		\draw[line width=.8 pt] (\x,-3) -- (\x+2,3);
+	\end{scope}
+	
+    \draw[
+    line width=3, 
+    draw=black,
+    rounded corners=1cm]
+    (60:1) 
+    -- ($(60:1)+(0:\offset)$)
+    -- ($(60:1)+(0:\offset)-(0,2*sin(60)$) 
+    -- (-60:1)
+    -- ($(-60:1)+(240:\offset)$)
+    -- ($(180:1)+(240:\offset)$)
+    -- (180:1)
+    -- ($(180:1)+(120:\offset)$)
+    -- ($(60:1)+(120:\offset)$)
+    -- cycle;
+%    (1,0) -- ($(1,0)-(0,.5)$) -- (0,0) -- cycle;
+%       (0,0) -- (0,1) -- (1,1) -- cycle;
+\end{tikzpicture}
+	
+	
+	\url{http://tex.stackexchange.com/questions/48756/tikz-relative-coordinates}
+	
+	
+	\vspace{1em}
+    \begin{tikzpicture}[line width=1.5,scale=.6]
+	\pgfmathsetmacro{\offset}{2.5}
+	\pgfmathsetmacro{\rounding}{15}
+	
+	\begin{scope}
+	    \clip[rounded corners=\rounding] (60:1) 
+    -- ($(60:1)+(0:\offset)$)
+    -- ($(60:1)+(0:\offset)-(0,2*sin(60)$) 
+    -- (-60:1)
+    -- ($(-60:1)+(240:\offset)$)
+    -- ($(180:1)+(240:\offset)$)
+    -- (180:1)
+    -- ($(180:1)+(120:\offset)$)
+    -- ($(60:1)+(120:\offset)$)
+    -- cycle;
+	   \foreach \x in {-5,-4.8,...,3}
+		\draw[line width=.8 pt] (\x,-3) -- (\x+2,3);
+	\end{scope}
+	
+    \draw[
+    line width=2, 
+    draw=black,
+    rounded corners=\rounding]
+    (60:1) 
+    -- ($(60:1)+(0:\offset)$)
+    -- ($(60:1)+(0:\offset)-(0,2*sin(60)$) 
+    -- (-60:1)
+    -- ($(-60:1)+(240:\offset)$)
+    -- ($(180:1)+(240:\offset)$)
+    -- (180:1)
+    -- ($(180:1)+(120:\offset)$)
+    -- ($(60:1)+(120:\offset)$)
+    -- cycle;
+
+% http://tex.stackexchange.com/questions/130838/tikz-segments-with-5pt-dotted-ends
+    \draw[line width=2.5, line cap=round, loosely dashed] ($(0:1)+(0:0.9*\offset)$) -- ($(0:1)+(0:2*\offset)$);
+    
+    \draw[fermionbar, line width=2.5, line cap=round] ($(120:1)+(120:0.8*\offset)$) -- ($(120:1)+(120:1.5*\offset)$);
+    
+    \draw[fermion, line width=2.5, line cap=round] ($(-120:1)+(-120:0.8*\offset)$) -- ($(-120:1)+(-120:1.5*\offset)$);
+
+\end{tikzpicture}
+
+\vspace{1em}
+	
+\begin{tikzpicture}[line width=1.5,scale=.6]
+	\pgfmathsetmacro{\offset}{2.5}
+	\pgfmathsetmacro{\rounding}{15}
+	
+	
+	\draw[fermion, line width=2.5, line cap=round] (-6,0) -- (-2.5,0);
+		
+	 \draw[
+    line width=2, 
+    fill=white,
+    rounded corners=\rounding]
+    (120:1) 
+    -- ($(120:1)-(0:\offset)$)
+    -- ($(120:1)-(0:\offset)-(0,2*sin(60)$) 
+    [sharp corners]
+    -- (-120:1)
+%    -- ($(-120:1)+(120:1)$)
+    -- cycle;
+	
+	\begin{scope}
+	    \clip[rounded corners=\rounding] (120:1) 
+    -- ($(120:1)-(0:\offset)$)
+    -- ($(120:1)-(0:\offset)-(0,2*sin(60)$) 
+    [sharp corners]
+    -- (-120:1)
+    -- cycle;
+	   \foreach \x in {-5,-4.8,...,3}
+		\draw[line width=.8 pt] (\x,-3) -- (\x+2,3);
+	\end{scope}
+	
+    \draw[
+    line width=2, 
+    draw=black,
+    rounded corners=\rounding]
+    (120:1) 
+    -- ($(120:1)-(0:\offset)$)
+    -- ($(120:1)-(0:\offset)-(0,2*sin(60)$) 
+    [sharp corners]
+    -- (-120:1)
+%    -- ($(-120:1)+(120:1)$)
+    -- cycle;
+
+% http://tex.stackexchange.com/questions/130838/tikz-segments-with-5pt-dotted-ends
+
+
+\end{tikzpicture}
+
+
+\vspace{1em}
+	
+\begin{tikzpicture}[line width=1.5,scale=.6]
+	\pgfmathsetmacro{\offset}{2.5}
+	\pgfmathsetmacro{\rounding}{15}
+	
+
+
+	\draw[line width=2.5, line cap=round, loosely dashed] (-6,0) -- (-2.5,0);
+		
+	 \draw[
+    line width=2, 
+    fill=white,
+    rounded corners=\rounding]
+    (120:1) 
+    -- ($(120:1)-(0:\offset)$)
+    -- ($(120:1)-(0:\offset)-(0,2*sin(60)$) 
+    [sharp corners]
+    -- (-120:1)
+%    -- ($(-120:1)+(120:1)$)
+    -- cycle;
+	
+	\begin{scope}
+	    \clip[rounded corners=\rounding] (120:1) 
+    -- ($(120:1)-(0:\offset)$)
+    -- ($(120:1)-(0:\offset)-(0,2*sin(60)$) 
+    [sharp corners]
+    -- (-120:1)
+    -- cycle;
+	   \foreach \x in {-5,-4.8,...,3}
+		\draw[line width=.8 pt] (\x,-3) -- (\x+2,3);
+	\end{scope}
+	
+    \draw[
+    line width=2, 
+    draw=black,
+    rounded corners=\rounding]
+    (120:1) 
+    -- ($(120:1)-(0:\offset)$)
+    -- ($(120:1)-(0:\offset)-(0,2*sin(60)$) 
+    [sharp corners]
+    -- (-120:1)
+%    -- ($(-120:1)+(120:1)$)
+    -- cycle;
+
+% http://tex.stackexchange.com/questions/130838/tikz-segments-with-5pt-dotted-ends
+
+
+\end{tikzpicture}
+
+
+
+\section{Cat Diagram}
+
+From Georgi--Kaplan on vacuum misalignment.
+\vspace{1em}
+
+	\begin{tikzpicture}[line width=1.5 pt, scale=2.5]
+		
+		\draw[fermionbar, line width=1.2 pt] (57:.6) -- (85:.29);
+		\draw[fermion, line width=1.2 pt] (57:.6) -- (29:.29);
+
+		
+		\draw[fermionbar, line width=1.2 pt] (123:.6) -- (151:.29);
+		\draw[fermion, line width=1.2 pt] (123:.6) -- (95:.29);
+		
+		\draw[vector, line width=1.2pt] (123:.6) arc (123:57:.6);
+		
+		\draw[fermionnoarrow, line width=1.2pt] (0,0) -- (170:.7);
+		\draw[fermionnoarrow, line width=1.2pt] (0,0) -- (180:.7);
+		\draw[fermionnoarrow, line width=1.2pt] (0,0) -- (190:.7);
+		
+		\draw[fermionnoarrow, line width=1.2pt] (0,0) -- (10:.7);
+		\draw[fermionnoarrow, line width=1.2pt] (0,0) -- (0:.7);
+		\draw[fermionnoarrow, line width=1.2pt] (0,0) -- (-10:.7);
+
+
+       \begin{scope}		
+		\foreach \x in {205,215,...,335}
+		    \draw[fill=black] (\x:.7) circle (.01);
+       \end{scope}
+      
+       % 		\draw[fill=white] (0,0) circle (.29cm);
+		
+		\draw[fill=black] (0,0) circle (.3cm);
+		\draw[fill=white] (0,0) circle (.295cm);
+		\begin{scope}
+	    	\clip (0,0) circle (.3cm);
+	    	\foreach \x in {-.95,-.9,-.85,...,.3}
+				\draw[line width=.8 pt] (\x,-.3) -- (\x+.6,.3);
+	  	\end{scope}
+	 \end{tikzpicture}
+	 
+	 
+
+
+
+\section*{Acknowledgements}
+
+
+This work is supported in part by the \textsc{nsf} grant \textsc{phy}-1316792. 
+%
+%\textsc{p.t.}\ thanks 
+%\emph{your name here}
+%for useful comments and discussions. 
+
+%% Appendices
+% \appendix
+
+% \bibliographystyle{utphys} 
+% \bibliography{bib title without .bib}
+
+\end{document}

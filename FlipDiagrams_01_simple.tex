@@ -1,0 +1,393 @@
+\documentclass[12pt]{article}
+%% arXiv paper template by Flip Tanedo
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  THE USUAL PACKAGES  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}         % \
+\usepackage{amssymb}         %  | AMS Packages for math
+\usepackage{amsfonts}        % /
+\usepackage{graphicx}        % Graphics
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  UNUSUAL PACKAGES        %%%%
+%%%  Uncomment as necessary. %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{lipsum}        % block of text (formatting test)
+%\usepackage{color}         % \color{...}, colored text
+%\usepackage{slashed}       % \slashed{k}
+%\usepackage{framed}        % boxed remarks
+%\usepackage{subcaption}    % subfigures; subfig depreciated
+%\usepackage{mathrsfs}      % Weinberg-esque letters
+%\usepackage{paralist}      % compactitem
+%\usepackage{multirow}      % multiple row elements in a table
+%\usepackage{cite}          % grouping citations (incompatible with collref)
+%\usepackage{booktabs}      % tables
+%\usepackage{nicefrac}      % fractions in tables,
+%\usepackage{youngtab}	    % Young Tableaux
+%\usepackage{arydshln} 	    % dashed lines in arrays and tables
+%\usepackage{appendix}      % subappendices
+%\usepackage{pifont}        % check marks
+%\usepackage{bbm}           % \mathbbm{1} incompatible with XeLaTeX 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  FLIP'S CUSTOM PACKAGES            %%%%
+%%%  These are in separate .sty files  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{flip-acronyms} % HEP acronyms in small caps, e.g. \GeV
+\usepackage{tikzfeynman}   % Flip's Feynman Diagrams
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  PAGE FORMATTING and (RE)NEW COMMANDS  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage[margin=2cm]{geometry}   % reasonable margins
+\graphicspath{{figures/}}	        % set directory for figures
+\numberwithin{equation}{section}    % set equation numbering
+\renewcommand{\tilde}{\widetilde}   % tilde over characters
+\renewcommand{\vec}[1]{\mathbf{#1}} % vectors are boldface
+
+
+\newcommand{\dbar}{d\mkern-6mu\mathchar'26}    % for d/2pi
+\newcommand{\ket}[1]{\left|#1\right\rangle}    % <#1|
+\newcommand{\bra}[1]{\left\langle#1\right|}    % |#1>
+\newcommand{\Xmark}{\text{\sffamily X}}        % cross out
+
+
+% Commands for temporary comments
+\newcommand{\comment}[2]{\textcolor{red}{[\textbf{#1} #2]}}
+\newcommand{\flip}[1]{{\tt \color{red} [Flip: {#1}]}}
+\newcommand{\email}[1]{\href{mailto:#1}{#1}}
+
+
+\newenvironment{institutions}[1][2em]{\begin{list}{}{\setlength\leftmargin{#1}\setlength\rightmargin{#1}}\item[]}{\end{list}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  TIKZ COMMANDS FOR EXTERNAL DIAGRAMS  %%%%
+%%%  requires -shell-escape               %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/] % folder for external pdfs
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%  HYPERREF  %%%%
+%%%%%%%%%%%%%%%%%%%
+
+% This package has to be at the end; can lead to conflicts
+\usepackage[
+	colorlinks=true,
+	citecolor=black,
+	linkcolor=black,
+	urlcolor=blue,
+	hypertexnames=false]{hyperref}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  TITLE DATA  %%%%
+%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{center}
+
+    {\huge \textbf{Sample Feynman Diagrams in TikZ} \\
+    \large \textsc{Vol.~I: Simple Diagrams, pieces of diagrams} }
+
+    \vskip .7cm
+
+    { \bf Flip Tanedo } 
+    \\ \vspace{-.2em}
+    { \tt
+    \footnotesize
+    \email{flip.tanedo@uci.edu} 
+    }
+	
+    \vspace{-.2cm}
+
+    \begin{institutions}[2.25cm]
+    \footnotesize
+	\vspace*{0.05cm}
+	{\it 
+	    Department of Physics \& Astronomy, 
+	    University of California, 
+	    Irvine, \textsc{ca} 92697
+	    }   
+    \end{institutions}
+
+\end{center}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  ABSTRACT    %%%%
+%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+\noindent This is collection of useful sample Feynman diagrams and pieces typeset in TikZ. 
+\end{abstract}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  THE MEAT    %%%%
+%%%%%%%%%%%%%%%%%%%%%
+
+% Use \input if you have separate files.
+% \include is `smarter' (creates separate aux files for each tex file) 
+% and hence more efficient, but it automatically puts a page break
+% between included files. Input doesn't do this.
+
+
+\section{Set Up}
+
+\subsection{PGF/Ti\textit{k}Z}
+
+``Portable Graphics Format'' and ``Ti\textit{k}Z ist \emph{kein} Zeichenprogramm'' (``Ti\textit{k}Z is \emph{not} a drawing program'') are languages and macros for LaTeX developed by Till Tantau\footnote{\url{http://sourceforge.net/projects/pgf/}}. It is used, for example, by the Beamer class for producing presentations. This is already included in the full distribution of MacTeX\footnote{\url{https://tug.org/mactex/}} which is based on TeXLive. For the remainder of this document I won't be italicizing the \textit{k}.
+
+\subsection{Wiggly lines and arrows}
+
+Most of the the wiggly lines and arrowed lines are already coded into TikZ. For simplicity, I've called the relevant libraries and made useful definitions in \texttt{tikzfeynman.sty}. Just dump this into your manuscript folder and call it with the \texttt{usepackage} command. Use this document as a template if need be.
+
+\subsection{Note on External TikZ Diagrams}
+
+Complicated diagrams or multiple diagrams can cause typesetting to take a long time. One way to simplify this is to have TikZ output a PDF of a finished diagram so that it will automatically include that PDF instead of re-processing the TikZ commands. Note that it can get a little annoying if you want to modify the diagram later on.
+
+ Usage: create the subdirectory tikz, or whatever ``prefix'' you use in
+ the \texttt{tikzexternalize} option, see the sample lines---commented out by default---in this tex file. Make sure the \texttt{-shell-escape} is used when you compile\footnote{For Texpad this is a checkbox in the typesetting preferences.}.  Tikz pictures will be exported as PDFs in the tikz directory.
+
+Note that this is NOT perfect! Some diagrams come out wonky, especially if you
+ use arrows (e.g. for Feynman diagrams) or if you put the TikZ pictures in
+ odd places (like in equation environments). What it does buy you is a HUGE
+ improvement in compile time. I suggest using this for intermediate 
+ typesets in a large document. For the final compile just turn it off again
+ so you get clean graphics. Alternately, you can compile a snippit in an editor like LaTeXiT and export that as a PDF. 
+ 
+ The arXiv can process TikZ commands so you don't need to use externalize for this. However, not all journals will do this. For example, APS journals require image attachments. In this case one has to use externalize to output the PDFs, then \emph{manually} go though and insert \texttt{includegraphics} commands in your manuscript. Sorry, I don't make the rules.
+ 
+
+\subsection{Fancy Fonts?}
+
+Maybe you want to make diagrams with your crazy fonts. XeLaTeX lets you access local system fonts for use in \LaTeX. It's great for Beamer, but I don't recommend it in a regular paper. It doesn't play well with some useful macros like `blackboard math,' \url{http://tinyurl.com/a28hrle}. 
+
+
+\subsection{Other resources and options}
+
+In addition to the comprehensive PGF/TikZ manual, You can find lots of great TikZ tutorials using your favorite internet search site. I especially like \url{http://www.texample.net/tikz/}. Here are some TikZ alternatives:
+{\small
+\begin{enumerate}
+\item \textsc{Jaxodraw}. A simple Java-based interface for drawing Feynman diagrams based on \texttt{axodraw.sty} (which is what was used to typeset Peskin \& Schroeder), \url{http://jaxodraw.sourceforge.net}.
+
+\item \textsc{Feynman Diagram Maker}. An even simpler web interface by Aidan Randle-Conde\footnote{See samples: \url{http://aidansean.com/projects/?p=160}}, \url{http://www.aidansean.com/feynman/}. Recommended if you want something for a quick e-mail, but perhaps not publication quality.
+
+\item \textsc{feynmn}. An older method based on Metafont. I found it a bit clunky to use and not as flexible as TikZ, \url{http://www.ctan.org/pkg/feynmf}.
+
+\end{enumerate}
+}
+
+
+\section{QED vertices}
+
+\vspace{2em}
+
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[fermion] (-40:1)--(0,0);
+	\draw[fermionbar] (40:1)--(0,0);
+	\draw[vector] (180:1)--(0,0);
+	\node at (-40:1.2) {$e$};
+	\node at (40:1.2) {$e$};
+	\node at (180:1.2) {$\gamma$};
+	\draw[fermion] (3,.5)--(5,.5);
+	\draw[vector] (3,-.5)--(5,-.5);
+	\node at (4, .8) {$e$};
+	\node at (4, -.2) {$\gamma$};
+ \end{tikzpicture}
+
+\vspace{2em}
+
+
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[vector] (-40:1)--(0,0);
+	\draw[fermionbar] (40:1)--(0,0);
+	\draw[fermion] (180:1)--(0,0);
+	\node at (-40:1.2) {$\gamma$};
+	\node at (40:1.2) {$e$};
+	\node at (180:1.2) {$e$};	
+\begin{scope}[shift={(3,0)}]
+	\draw[fermion] (-40:1)--(0,0);
+	\draw[vector] (40:1)--(0,0);
+	\draw[fermionbar] (180:1)--(0,0);
+	\node at (-40:1.2) {$e$};
+	\node at (40:1.2) {$\gamma$};
+	\node at (180:1.2) {$e$};	
+\end{scope}
+\begin{scope}[shift={(6,0)}]
+			\draw[fermion] (-140:1)--(0,0);
+			\draw[fermionbar] (140:1)--(0,0);
+			\draw[vector] (0:1)--(0,0);
+			\node at (-140:1.2) {$e$};
+			\node at (140:1.2) {$e$};
+			\node at (0:1.2) {$e$};	
+\end{scope}
+\end{tikzpicture}
+
+
+\vspace{1em}
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[fermionbar] (-140:1)--(0,0);
+	\draw[fermion] (140:1)--(0,0);
+	\draw[vector] (0:1)--(0,0);
+	\node at (-140:1.2) {$e$};
+	\node at (140:1.2) {$e$};
+	\node at (.5,.3) {$\gamma$};	
+\begin{scope}[shift={(1,0)}]
+	\draw[fermion] (-40:1)--(0,0);
+	\draw[fermionbar] (40:1)--(0,0);
+	\node at (-40:1.2) {$e$};
+	\node at (40:1.2) {$e$};	
+\end{scope}
+\begin{scope}[shift={(4,-.5)}]
+	\begin{scope}[rotate=90]
+			\draw[fermion] (-140:1)--(0,0);
+			\draw[fermionbar] (140:1)--(0,0);
+			\draw[vector] (0:1)--(0,0);
+			\node at (-140:1.2) {$e$};
+			\node at (140:1.2) {$e$};
+			\node at (.5,.3) {$\gamma$};	
+		\begin{scope}[shift={(1,0)}]
+			\draw[fermionbar] (-40:1)--(0,0);
+			\draw[fermion] (40:1)--(0,0);
+			\node at (-40:1.2) {$e$};
+			\node at (40:1.2) {$e$};	
+		\end{scope}
+	\end{scope}
+\end{scope}
+\end{tikzpicture}
+
+\vspace{2em}
+
+\vspace{1em}
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[fermion] (-140:1)--(0,0);
+	\draw[fermionbar] (140:1)--(0,0);
+	\draw[vector] (0:1)--(0,0);
+	\node at (-140:1.2) {$e$};
+	\node at (140:1.2) {$e$};
+	% \node at (.5,.3) {$\gamma$};	
+	\draw[fermion] (1,0) arc (180:0:.5);
+	\draw[fermion] (2,0) arc (0:-180:.5);
+	\draw[vector] (2,0) --(3,0);
+	% \node at (2.5,.3) {$\gamma$};	
+\begin{scope}[shift={(3,0)}]
+	\draw[fermion] (-40:1)--(0,0);
+	\draw[fermionbar] (40:1)--(0,0);
+	\node at (-40:1.2) {$e$};
+	\node at (40:1.2) {$e$};	
+\end{scope}
+\end{tikzpicture}
+
+Wiggly lines don't always close well. Sometimes you can adjust them by hand.
+
+\vspace{1em}
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[fermionbar] (0:1)--(0,0);
+	\draw[vector] (1,0) arc (180:0:.5);
+	\draw[fermionbar] (2,0) arc (0:-180:.5);
+	\draw[fermion] (2,0) --(3,0);
+\end{tikzpicture}
+
+I don't have a good solution for this. One option specifically for semi-circles is here: \url{http://bit.ly/1vFCNzi}. I think it can be adapted for arbitrary angles. For further discussion, see: \url{http://bit.ly/12wA4kQ}.
+
+
+%\url{http://tex.stackexchange.com/questions/64786/coil-path-decoration-without-straight-segment}
+
+
+\section{W Diagrams}
+
+
+
+\vspace{1em}
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[fermionbar] (40:1)--(0,0);
+	\draw[fermion] (180:1)--(0,0);
+	\draw[vector] (-40:1)--(0,0);
+	\node at (40:1.2) {$\nu_e$};
+	\node at (180:1.2) {$\mu$};
+	\node at (0.2,-.5) {$W$};	
+\begin{scope}[shift={(-40:1)}]
+	\draw[fermion] (-40:1)--(0,0);
+	\draw[fermionbar] (40:1)--(0,0);
+	\node at (-40:1.2) {$\nu_e$};
+	\node at (40:1.2) {$e$};	
+\end{scope}
+\end{tikzpicture}
+
+\vspace{1em}
+
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[vector] (0:1)--(0,0);
+	\draw[vector] (120:1)--(0,0);
+	\draw[vector] (240:1)--(0,0);
+	\node at (0:1.4) {$W^-$};
+	\node at (120:1.2) {$W^+$};
+	\node at (240:1.2) {$\gamma$};	
+\end{tikzpicture}
+
+
+\section{QCD}
+
+
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[fermion, color=red] (-40:1)--(0,0);
+	\draw[fermionbar, color=blue] (40:1)--(0,0);
+	\draw[gluon] (180:1)--(0,0);
+	\node at (-40:1.2) {$q$};
+	\node at (40:1.2) {$q$};
+	\node at (180:1.2) {$g$};	
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[gluon] (180:1)--(0,0);
+	\draw[gluon] (60:1)--(0,0);
+	\draw[gluon] (-60:1)--(0,0);
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}[line width=1.5 pt, scale=1.3]
+	\draw[gluon] (45:1)--(0,0);
+	\draw[gluon] (135:1)--(0,0);
+	\draw[gluon] (-135:1)--(0,0);
+	\draw[gluon] (-45:1)--(0,0);	
+\end{tikzpicture}
+
+
+\section*{Acknowledgements}
+
+
+This work is supported in part by the \textsc{nsf} grant \textsc{phy}-1316792. 
+%
+%\textsc{p.t.}\ thanks 
+%\emph{your name here}
+%for useful comments and discussions. 
+
+%% Appendices
+% \appendix
+
+% \bibliographystyle{utphys} 
+% \bibliography{bib title without .bib}
+
+\end{document}
